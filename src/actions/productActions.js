@@ -1,7 +1,10 @@
 import {
   ADD_PRODUCT,
   ADD_PRODUCT_SUCCESS,
-  ADD_PRODUCT_ERROR
+  ADD_PRODUCT_ERROR,
+  GET_PRODUCTS,
+  GET_PRODUCTS_SUCCESS,
+  GET_PRODUCTS_ERROR
 } from '../types';
 
 import axios from '../config/axios';
@@ -35,6 +38,26 @@ export const addProductAction = product => async dispatch => {
       icon: 'error',
       title: 'There was an error',
       text: 'there was an error, try again'
+    });
+  }
+
+}
+
+// get products in the db
+export const getProductsAction = async dispatch => {
+  dispatch({
+    type: GET_PRODUCTS
+  });
+
+  try {
+    const res = await axios.get('products');
+    dispatch({
+      type: GET_PRODUCTS_SUCCESS,
+      payload: res.data
+    });
+  } catch(err) {
+    dispatch({
+      type: GET_PRODUCTS_ERROR
     });
   }
 
