@@ -4,7 +4,10 @@ import {
   ADD_PRODUCT_ERROR,
   GET_PRODUCTS,
   GET_PRODUCTS_SUCCESS,
-  GET_PRODUCTS_ERROR
+  GET_PRODUCTS_ERROR,
+  DELETE_PRODUCT,
+  DELETE_PRODUCT_SUCCESS,
+  DELETE_PRODUCT_ERROR
 } from '../types';
 
 const initialState = {
@@ -15,6 +18,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch(action.type) {
+    case DELETE_PRODUCT:
     case GET_PRODUCTS:
     case ADD_PRODUCT:
       return {
@@ -27,6 +31,7 @@ export default (state = initialState, action) => {
         loading: false,
         products: [...state.products, action.payload]
       }
+    case DELETE_PRODUCT_ERROR:
     case GET_PRODUCTS_ERROR:
     case ADD_PRODUCT_ERROR:
       return {
@@ -42,6 +47,12 @@ export default (state = initialState, action) => {
         products: action.payload
       }
     }
+
+    case DELETE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        products: state.products.filter(product => product.id !== action.payload)
+      }
     default:
       return state;
   }
