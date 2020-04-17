@@ -7,7 +7,11 @@ import {
   GET_PRODUCTS_ERROR,
   DELETE_PRODUCT,
   DELETE_PRODUCT_SUCCESS,
-  DELETE_PRODUCT_ERROR
+  DELETE_PRODUCT_ERROR,
+  GET_EDIT_PRODUCT,
+  EDIT_PRODUCT,
+  EDIT_PRODUCT_SUCCESS,
+  EDIT_PRODUCT_ERROR
 } from '../types';
 
 import axios from '../config/axios';
@@ -95,4 +99,30 @@ export const deleteProductAction = id => async dispatch => {
     });
   }
 
+}
+
+// get product for edition
+export const getEditProductAction = product => async dispatch => {
+  dispatch({
+    type: GET_EDIT_PRODUCT,
+    payload: product
+  });
+}
+
+export const editProductAction = newProduct => async dispatch => {
+  dispatch({
+    type: EDIT_PRODUCT
+  });
+
+  try {
+    await axios.put(`products/${newProduct.id}`, newProduct);
+
+    dispatch({
+      type: EDIT_PRODUCT_SUCCESS,
+    });
+  } catch(err) {
+    dispatch({
+      type: EDIT_PRODUCT_ERROR
+    })
+  }
 }
